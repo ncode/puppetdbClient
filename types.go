@@ -1,5 +1,7 @@
 package puppetdbClient
 
+import "time"
+
 // CatalogWireFormat struct representing the wire format of a PuppetDB catalog object.
 type CatalogWireFormat struct {
 	Metadata CatalogMetadata `json:"metadata"`
@@ -106,52 +108,100 @@ type ReportWireFormat struct {
 	TransactionUuid      string          `json:"transaction_uuid"`
 }
 
-// Report A representation of a report
 type Report struct {
-	Certname             string `json:"certname"`
-	PuppetVersion        string `json:"puppet_version"`
-	ReportFormat         int    `json:"report_format"`
-	ConfigurationVersion string `json:"configuration_version"`
-	StartTime            string `json:"start_time"`
-	EndTime              string `json:"end_time"`
-	TransactionUuid      string `json:"transaction_uuid"`
-	Hash                 string `json:"hash"`
+	CatalogUuid          string         `json:"catalog_uuid"`
+	ReceiveTime          time.Time      `json:"receive_time"`
+	Producer             string         `json:"producer"`
+	Hash                 string         `json:"hash"`
+	TransactionUuid      string         `json:"transaction_uuid"`
+	PuppetVersion        string         `json:"puppet_version"`
+	Noop                 bool           `json:"noop"`
+	CorrectiveChange     string         `json:"corrective_change"`
+	Logs                 ReportLogs     `json:"logs"`
+	ReportFormat         int            `json:"report_format"`
+	StartTime            time.Time      `json:"start_time"`
+	ProducerTimestamp    time.Time      `json:"producer_timestamp"`
+	Type                 string         `json:"type"`
+	CachedCatalogStatus  string         `json:"cached_catalog_status"`
+	EndTime              time.Time      `json:"end_time"`
+	ResourceEvents       ResourceEvents `json:"resource_events"`
+	Status               string         `json:"status"`
+	ConfigurationVersion string         `json:"configuration_version"`
+	Environment          string         `json:"environment"`
+	CodeId               string         `json:"code_id"`
+	NoopPending          bool           `json:"noop_pending"`
+	Certname             string         `json:"certname"`
+	Metrics              struct {
+		Data []struct {
+			Name     string  `json:"name"`
+			Value    float64 `json:"value"`
+			Category string  `json:"category"`
+		} `json:"data"`
+		Href string `json:"href"`
+	} `json:"metrics"`
+	JobId string `json:"job_id"`
 }
 
-// ResourceEvent A representation of a resource event from a report.
+// ReportLogs struct representing the logs of a PuppetDB report object.
+type ReportLogs struct {
+	Data []ReportData `json:"data"`
+	Href string       `json:"href"`
+}
+
+// ReportData struct representing the data of a PuppetDB report object.
+type ReportData struct {
+	File    string    `json:"file"`
+	Line    int       `json:"line"`
+	Tags    []string  `json:"tags"`
+	Time    time.Time `json:"time"`
+	Level   string    `json:"level"`
+	Source  string    `json:"source"`
+	Message string    `json:"message"`
+}
+
+type ResourceEvents struct {
+	Data []ResourceEvent `json:"data"`
+	Href string          `json:"href"`
+}
+
 type ResourceEvent struct {
-	ResourceType    string   `json:"resource_type"`
-	ResourceTitle   string   `json:"resource_title"`
-	Property        string   `json:"property"`
-	Timestamp       string   `json:"timestamp"`
-	Status          string   `json:"status"`
-	OldValue        string   `json:"old_value"`
-	NewValue        string   `json:"new_value"`
-	Message         string   `json:"message"`
-	File            string   `json:"file"`
-	Line            int      `json:"line"`
-	ContainmentPath []string `json:"containment_path"`
+	NewValue        string    `json:"new_value"`
+	Property        string    `json:"property"`
+	Name            string    `json:"name"`
+	File            string    `json:"file"`
+	OldValue        string    `json:"old_value"`
+	Line            int       `json:"line"`
+	ResourceType    string    `json:"resource_type"`
+	Status          string    `json:"status"`
+	ResourceTitle   string    `json:"resource_title"`
+	Timestamp       time.Time `json:"timestamp"`
+	ContainmentPath []string  `json:"containment_path"`
+	Message         string    `json:"message"`
 }
 
 // Event A representation of an event from a report.
 type Event struct {
-	Certname          string   `json:"certname"`
-	Report            string   `json:"report"`
-	RunStartTime      string   `json:"run_start_time"`
-	RunEndTime        string   `json:"run_end_time"`
-	ReportReceiveTime string   `json:"report_receive_time"`
-	LatestReport      bool     `json:"latest_report?"`
-	ResourceType      string   `json:"resource_type"`
-	ResourceTitle     string   `json:"resource_title"`
-	Property          string   `json:"property"`
-	Timestamp         string   `json:"timestamp"`
-	Status            string   `json:"status"`
-	OldValue          string   `json:"old_value"`
-	NewValue          string   `json:"new_value"`
-	Message           string   `json:"message"`
-	File              string   `json:"file"`
-	Line              int      `json:"line"`
-	ContainmentPath   []string `json:"containment_path"`
+	NewValue             string    `json:"new_value"`
+	Report               string    `json:"report"`
+	CorrectiveChange     bool      `json:"corrective_change"`
+	RunStartTime         time.Time `json:"run_start_time"`
+	Property             string    `json:"property"`
+	Name                 string    `json:"name"`
+	File                 string    `json:"file"`
+	OldValue             string    `json:"old_value"`
+	ContainingClass      string    `json:"containing_class"`
+	Line                 int       `json:"line"`
+	ResourceType         string    `json:"resource_type"`
+	Status               string    `json:"status"`
+	ConfigurationVersion string    `json:"configuration_version"`
+	ResourceTitle        string    `json:"resource_title"`
+	Environment          string    `json:"environment"`
+	Timestamp            time.Time `json:"timestamp"`
+	RunEndTime           time.Time `json:"run_end_time"`
+	ReportReceiveTime    time.Time `json:"report_receive_time"`
+	ContainmentPath      []string  `json:"containment_path"`
+	Certname             string    `json:"certname"`
+	Message              string    `json:"message"`
 }
 
 // EventCounts A representation of event counts.
