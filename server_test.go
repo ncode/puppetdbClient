@@ -11,22 +11,22 @@ func TestNew(t *testing.T) {
 
 	server := New(baseUrl, client)
 
-	if server.BaseUrl != baseUrl {
-		t.Errorf("Expected BaseUrl to be %s, but got %s", baseUrl, server.BaseUrl)
+	if server.ServerUrl != baseUrl {
+		t.Errorf("Expected ServerUrl to be %s, but got %s", baseUrl, server.ServerUrl)
 	}
 
-	if server.Client != client {
-		t.Errorf("Expected Client to be %+v, but got %+v", client, server.Client)
+	if server.httpClient != client {
+		t.Errorf("Expected httpClient to be %+v, but got %+v", client, server.httpClient)
 	}
 
 	// Test case when client is nil
 	server = New(baseUrl, nil)
 
-	if server.BaseUrl != baseUrl {
-		t.Errorf("Expected BaseUrl to be %s, but got %s", baseUrl, server.BaseUrl)
+	if server.ServerUrl != baseUrl {
+		t.Errorf("Expected ServerUrl to be %s, but got %s", baseUrl, server.ServerUrl)
 	}
 
-	if server.Client == nil {
-		t.Errorf("Expected Client not to be nil")
+	if server.httpClient == nil {
+		t.Errorf("Expected httpClient not to be nil")
 	}
 }

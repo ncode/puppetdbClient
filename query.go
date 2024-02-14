@@ -9,8 +9,8 @@ import (
 )
 
 // Query will query the PuppetDB instance with the given URL.
-func (server *Server) Query(url string) ([]byte, error) {
-	baseUrl := server.BaseUrl
+func (server *Client) Query(url string) ([]byte, error) {
+	baseUrl := server.ServerUrl
 	queryUrl := strings.Join([]string{baseUrl, url}, "")
 
 	req, err := http.NewRequest("GET", queryUrl, nil)
@@ -19,7 +19,7 @@ func (server *Server) Query(url string) ([]byte, error) {
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	client := server.Client
+	client := server.httpClient
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (server *Server) Query(url string) ([]byte, error) {
 }
 
 // QueryVersion will query the PuppetDB instance version end-point.
-func (server *Server) QueryVersion() (version *Version, err error) {
+func (server *Client) QueryVersion() (version *Version, err error) {
 	body, err := server.Query("pdb/meta/v1/version")
 	if err != nil {
 		return version, err
@@ -46,7 +46,7 @@ func (server *Server) QueryVersion() (version *Version, err error) {
 }
 
 // QueryServerTime will query the PuppetDB instance server-time end-point.
-func (server *Server) QueryServerTime() (serverTime *ServerTime, err error) {
+func (server *Client) QueryServerTime() (serverTime *ServerTime, err error) {
 	body, err := server.Query("pdb/meta/v1/server-time")
 	if err != nil {
 		return serverTime, err
@@ -62,7 +62,7 @@ func (server *Server) QueryServerTime() (serverTime *ServerTime, err error) {
 }
 
 // QueryFactNames will query the PuppetDB instance fact-names end-point.S
-func (server *Server) QueryFactNames() (factNames []string, err error) {
+func (server *Client) QueryFactNames() (factNames []string, err error) {
 	body, err := server.Query("pdb/query/v4/fact-names")
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (server *Server) QueryFactNames() (factNames []string, err error) {
 }
 
 // QueryFactPaths will query the PuppetDB instance fact-paths end-point.
-func (server *Server) QueryFactPaths() (factPaths []string, err error) {
+func (server *Client) QueryFactPaths() (factPaths []string, err error) {
 	body, err := server.Query("pdb/query/v4/fact-paths")
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (server *Server) QueryFactPaths() (factPaths []string, err error) {
 }
 
 // QueryFactContents will query the PuppetDB instance fact-contents end-point.
-func (server *Server) QueryFactContents(queryString string) (factContents []FactContent, err error) {
+func (server *Client) QueryFactContents(queryString string) (factContents []FactContent, err error) {
 	url := fmt.Sprintf("pdb/query/v4/fact-contents?%v", queryString)
 
 	body, err := server.Query(url)
@@ -110,7 +110,7 @@ func (server *Server) QueryFactContents(queryString string) (factContents []Fact
 }
 
 // QueryCatalogs will query the PuppetDB instance catalogs end-point for a given agent
-func (server *Server) QueryCatalogs(certname string) (catalog *CatalogWireFormat, err error) {
+func (server *Client) QueryCatalogs(certname string) (catalog *CatalogWireFormat, err error) {
 	url := fmt.Sprintf("pdb/query/v4/catalogs/%v", certname)
 	body, err := server.Query(url)
 	if err != nil {
@@ -127,7 +127,7 @@ func (server *Server) QueryCatalogs(certname string) (catalog *CatalogWireFormat
 }
 
 // QueryFacts will query the PuppetDB instance facts end-point.
-func (server *Server) QueryFacts(queryString string) (facts []Fact, err error) {
+func (server *Client) QueryFacts(queryString string) (facts []Fact, err error) {
 	url := fmt.Sprintf("pdb/query/v4/facts?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -143,7 +143,7 @@ func (server *Server) QueryFacts(queryString string) (facts []Fact, err error) {
 }
 
 // QueryFactsByName will query the PuppetDB instance facts end-point for a given fact name.
-func (server *Server) QueryFactsByName(name string, queryString string) (facts []Fact, err error) {
+func (server *Client) QueryFactsByName(name string, queryString string) (facts []Fact, err error) {
 	url := fmt.Sprintf("pdb/query/v4/facts/%v?%v", name, queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -159,7 +159,7 @@ func (server *Server) QueryFactsByName(name string, queryString string) (facts [
 }
 
 // QueryFactsByNameValue will query the PuppetDB instance facts end-point for a given fact name and value.
-func (server *Server) QueryFactsByNameValue(name string, value string, queryString string) (facts []Fact, err error) {
+func (server *Client) QueryFactsByNameValue(name string, value string, queryString string) (facts []Fact, err error) {
 	url := fmt.Sprintf("pdb/query/v4/facts/%v/%v?%v", name, value, queryString)
 
 	body, err := server.Query(url)
@@ -176,7 +176,7 @@ func (server *Server) QueryFactsByNameValue(name string, value string, queryStri
 }
 
 // QueryResources will query the PuppetDB instance resources end-point.
-func (server *Server) QueryResources(queryString string) (catalogResource []CatalogResource, err error) {
+func (server *Client) QueryResources(queryString string) (catalogResource []CatalogResource, err error) {
 	url := fmt.Sprintf("pdb/query/v4/resources?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -192,7 +192,7 @@ func (server *Server) QueryResources(queryString string) (catalogResource []Cata
 }
 
 // QueryNodes will query the PuppetDB instance nodes end-point.
-func (server *Server) QueryNodes(queryString string) (nodes []Node, err error) {
+func (server *Client) QueryNodes(queryString string) (nodes []Node, err error) {
 	url := fmt.Sprintf("pdb/query/v4/nodes?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -208,7 +208,7 @@ func (server *Server) QueryNodes(queryString string) (nodes []Node, err error) {
 }
 
 // QueryReports will query the PuppetDB instance reports end-point.
-func (server *Server) QueryReports(queryString string) (reports []Report, err error) {
+func (server *Client) QueryReports(queryString string) (reports []Report, err error) {
 	url := fmt.Sprintf("pdb/query/v4/reports?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -224,7 +224,7 @@ func (server *Server) QueryReports(queryString string) (reports []Report, err er
 }
 
 // QueryEvents will query the PuppetDB instance events end-point.
-func (server *Server) QueryEvents(queryString string) (events []Event, err error) {
+func (server *Client) QueryEvents(queryString string) (events []Event, err error) {
 	url := fmt.Sprintf("pdb/query/v4/events?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -240,7 +240,7 @@ func (server *Server) QueryEvents(queryString string) (events []Event, err error
 }
 
 // QueryEventCounts will query the PuppetDB instance event-counts end-point.
-func (server *Server) QueryEventCounts(queryString string) (eventCounts *EventCounts, err error) {
+func (server *Client) QueryEventCounts(queryString string) (eventCounts *EventCounts, err error) {
 	url := fmt.Sprintf("pdb/query/v4/event-counts?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -257,7 +257,7 @@ func (server *Server) QueryEventCounts(queryString string) (eventCounts *EventCo
 }
 
 // QueryAggregateEventCounts will query the PuppetDB instance aggregate-event-counts end-point.
-func (server *Server) QueryAggregateEventCounts(queryString string) (aggregateEventCounts *AggregateEventCounts, err error) {
+func (server *Client) QueryAggregateEventCounts(queryString string) (aggregateEventCounts *AggregateEventCounts, err error) {
 	url := fmt.Sprintf("pdb/query/v4/aggregate-event-counts?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
@@ -274,7 +274,7 @@ func (server *Server) QueryAggregateEventCounts(queryString string) (aggregateEv
 }
 
 // QueryInventory will query the PuppetDB instance inventory end-point.
-func (server *Server) QueryInventory(queryString string) (inventory []Inventory, err error) {
+func (server *Client) QueryInventory(queryString string) (inventory []Inventory, err error) {
 	url := fmt.Sprintf("pdb/query/v4/inventory?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {

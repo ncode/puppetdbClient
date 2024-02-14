@@ -17,8 +17,8 @@ functions instead.
 
 More detail here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html
 */
-func (server *Server) SubmitCommand(command string, version int, payload interface{}) (*CommandResponse, error) {
-	baseUrl := server.BaseUrl
+func (server *Client) SubmitCommand(command string, version int, payload interface{}) (*CommandResponse, error) {
+	baseUrl := server.ServerUrl
 	commandsUrl := strings.Join([]string{baseUrl, "v3/commands"}, "")
 
 	commandObject := CommandObject{command, version, payload}
@@ -57,7 +57,7 @@ func (server *Server) SubmitCommand(command string, version int, payload interfa
 }
 
 // DeactivateNode Deactivate a node in PuppetDB.
-func (server *Server) DeactivateNode(certname string) (commandResponse *CommandResponse, err error) {
+func (server *Client) DeactivateNode(certname string) (commandResponse *CommandResponse, err error) {
 	certnameJson, err := json.Marshal(certname)
 	if err != nil {
 		return commandResponse, err
