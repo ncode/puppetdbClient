@@ -70,14 +70,14 @@ type FactsWireFormat struct {
 
 // Fact struct representing a PuppetDB fact object.
 type Fact struct {
-	CertName string `json:"certname"`
+	Certname string `json:"certname"`
 	Name     string `json:"name"`
 	Value    string `json:"value"`
 }
 
 // FactContent struct representing a PuppetDB fact content object.
 type FactContent struct {
-	CertName    string   `json:"certname"`
+	Certname    string   `json:"certname"`
 	Environment string   `json:"environment"`
 	Name        string   `json:"name"`
 	Value       string   `json:"value"`
