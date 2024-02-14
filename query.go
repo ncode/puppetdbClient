@@ -31,7 +31,7 @@ func (server *Client) Query(url string) ([]byte, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("query failed status code: %v body: %s", resp.Status, string(body))
+		return nil, fmt.Errorf("query failed status code: %d body: %s", resp.StatusCode, string(body))
 	}
 
 	return body, nil
