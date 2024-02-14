@@ -1,11 +1,11 @@
 package puppetdb
 
 import (
+	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	"bytes"
-	"io/ioutil"
 	"strings"
 )
 
@@ -23,7 +23,7 @@ func (server *Server) SubmitCommand(command string, version int, payload interfa
 
 	commandObject := CommandObject{command, version, payload}
 	commandJson, err := json.Marshal(commandObject)
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 
@@ -31,25 +31,25 @@ func (server *Server) SubmitCommand(command string, version int, payload interfa
 	data.Set("payload", string(commandJson[:]))
 
 	req, err := http.NewRequest("POST", commandsUrl, bytes.NewBufferString(data.Encode()))
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 
 	bodyRC, err := ioutil.ReadAll(resp.Body)
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 
 	var commandResponse CommandResponse
 	err = json.Unmarshal(bodyRC, &commandResponse)
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 
@@ -65,9 +65,9 @@ name and a map of facts (key/value pairs).
 More details here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html#replace-facts-version-1
 */
 func (server *Server) ReplaceFacts(certname string, facts map[string]string) (*CommandResponse, error) {
-        factsPayload := FactsWireFormat{certname, facts}
+	factsPayload := FactsWireFormat{certname, facts}
 	factsJson, err := json.Marshal(factsPayload)
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 
@@ -85,7 +85,7 @@ More details here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html#
 */
 func (server *Server) DeactivateNode(certname string) (*CommandResponse, error) {
 	certnameJson, err := json.Marshal(certname)
-	if(err != nil) {
+	if err != nil {
 		return nil, err
 	}
 

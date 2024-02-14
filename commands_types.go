@@ -9,9 +9,9 @@ type CommandObject struct {
 	// Command name, such as 'replace facts' or 'deactivate node'
 	Command string `json:"command"`
 	// Command version as an integer
-	Version	int `json:"version"`
+	Version int `json:"version"`
 	// Command payload, may contain different data types depending on command
-	Payload	interface{} `json:"payload"`
+	Payload interface{} `json:"payload"`
 }
 
 /*

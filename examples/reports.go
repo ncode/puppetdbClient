@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/kbarber/puppetdb-client-go"
+	"github.com/ncode/puppetdb-client-go"
 	"net/url"
 )
 

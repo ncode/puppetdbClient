@@ -20,6 +20,6 @@ More details here: http://docs.puppetlabs.com/puppetdb/latest/api/query/v3/facts
 */
 type Fact struct {
 	Certname string `json:"certname"`
-	Name string `json:"name"`
-	Value string `json:"value"`
+	Name     string `json:"name"`
+	Value    string `json:"value"`
 }
