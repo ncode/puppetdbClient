@@ -18,7 +18,7 @@ func main() {
 	// A blank query string - just an example
 	var values url.Values
 	values = map[string][]string{
-		"query": {""},
+		"query": {"[\"extract\", [\"certname\", \"latest_report_hash\"], [\"and\", [\"not\", [\"=\", \"latest_report_hash\", null]], [\"=\", \"deactivated\", null]]]"},
 		"limit": {"10"},
 	}
 	queryString := values.Encode()

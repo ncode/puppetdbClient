@@ -179,11 +179,19 @@ type AggregateEventCounts struct {
 
 // Node Representation of a PuppetDB node.
 type Node struct {
-	Name             string `json:"name"`
-	Deactivated      string `json:"deactivated"`
-	CatalogTimestamp string `json:"catalog_timestamp"`
-	FactsTimestamp   string `json:"facts_timestamp"`
-	ReportTimestamp  string `json:"report_timestamp"`
+	Certname                string `json:"certname"`
+	Deactivated             string `json:"deactivated"`
+	CatalogTimestamp        string `json:"catalog_timestamp"`
+	FactsTimestamp          string `json:"facts_timestamp"`
+	ReportTimestamp         string `json:"report_timestamp"`
+	CatalogEnvironment      string `json:"catalog_environment"`
+	FactsEnvironment        string `json:"facts_environment"`
+	ReportEnvironment       string `json:"report_environment"`
+	LatestReportStatus      string `json:"latest_report_status"`
+	LatestReportNoop        bool   `json:"latest_report_noop"`
+	LatestReportNoopPending bool   `json:"latest_report_noop_pending"`
+	LatestReportHash        string `json:"latest_report_hash"`
+	LatestReportJobId       string `json:"latest_report_job_id"`
 }
 
 // Inventory struct representing a PuppetDB inventory object.
