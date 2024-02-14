@@ -1,142 +1,64 @@
 package puppetdb
 
-/*
-Wire format representation of a catalog.
-
-You probably want to take a look at the NewCatalogWireFormat function, as this
-is the suggested way to create a new catalog wire format data structure from
-scratch.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/catalog_format.html
-*/
+// CatalogWireFormat struct representing the wire format of a PuppetDB catalog object.
 type CatalogWireFormat struct {
-	// Metadata for this catalog
 	Metadata CatalogMetadata `json:"metadata"`
-	// Data for this catalog
-	Data CatalogData `json:"data"`
+	Data     CatalogData     `json:"data"`
 }
 
-/*
-Catalog metadata struct.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/catalog_format.html#main-data-type-catalog
-*/
+// CatalogMetadata struct representing the metadata of a PuppetDB catalog object.
 type CatalogMetadata struct {
-	// Catalog data API version
 	ApiVersion int `json:"api_version"`
 }
 
-/*
-Data for a catalog.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/catalog_format.html#main-data-type-catalog
-*/
+// CatalogData struct representing the data of a PuppetDB catalog object.
 type CatalogData struct {
-	// Certificate name owning the catalog to be replaced
-	Name string `json:"name"`
-	// Version of the catalog
-	Version string `json:"version"`
-	// Unique identifier provided by client to marry catalogs with reports and other (future) objects
-	TransactionUuid string `json:"transaction-uuid"`
-	// Edges represented in this catalog
-	Edges []CatalogEdge `json:"edges"`
-	// Resources represented in this catalog
-	Resources []CatalogResource `json:"resources"`
+	Name            string            `json:"name"`
+	Version         string            `json:"version"`
+	TransactionUuid string            `json:"transaction-uuid"`
+	Edges           []CatalogEdge     `json:"edges"`
+	Resources       []CatalogResource `json:"resources"`
 }
 
-/*
-A representation of an edge inside a catalog.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/catalog_format.html#data-type-edge
-*/
+// CatalogEdge struct representing a catalog edge.
 type CatalogEdge struct {
-	// Source resource spec for this edge
-	Source CatalogResourceSpec `json:"source"`
-	// Target resource spec for this edge
-	Target CatalogResourceSpec `json:"target"`
-	// Relationship type
-	Relationship string `json:"relationship"`
+	Source       CatalogResourceSpec `json:"source"`
+	Target       CatalogResourceSpec `json:"target"`
+	Relationship string              `json:"relationship"`
 }
 
-/*
-This struct represents a catalog resource reference for use in edges.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/catalog_format.html#data-type-resource-spec
-*/
+// CatalogResourceSpec struct representing a catalog resource spec.
 type CatalogResourceSpec struct {
-	// The type of a catalog resource
-	Type string `json:"type"`
-	// The title of a catalog resource
+	Type  string `json:"type"`
 	Title string `json:"title"`
 }
 
-/*
-A collection of catalog resources
-*/
+// CatalogResources A list of catalog resources.
 type CatalogResources []CatalogResource
 
-/*
-A catalog resource.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/catalog_format.html#data-type-resource
-*/
+// CatalogResource struct representing a catalog resource.
 type CatalogResource struct {
-	// The type of a catalog resource
-	Type string `json:"type"`
-	// The title of a catalog resource
+	Type  string `json:"type"`
 	Title string `json:"title"`
-	// Aliases for this resource
 	//Aliases []string `json:"aliases"`
-	// Exported status
-	Exported bool `json:"exported"`
-	// Source file this resource appears in
-	File string `json:"file"`
-	// Line in the file this resource appears in
-	Line int `json:"line"`
-	// All tags applied to this resource
-	Tags []string `json:"tags"`
-	// A map containing a list of key/value pairs for each parameter of this resource
+	Exported   bool              `json:"exported"`
+	File       string            `json:"file"`
+	Line       int               `json:"line"`
+	Tags       []string          `json:"tags"`
 	Parameters map[string]string `json:"parameters"`
 }
 
-/*
-Create a new catalog
-*/
-func NewCatalogWireFormat() CatalogWireFormat {
-	metadata := CatalogMetadata{0}
-	data := CatalogData{"", "", "", nil, nil}
-	return CatalogWireFormat{metadata, data}
-}
-package puppetdb
-
-/*
-Top level struct representing a PuppetDB commands payload object.
-
-See here for more details on the protocol: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html
-*/
+// CommandObject struct representing a PuppetDB command object.
 type CommandObject struct {
-	// Command name, such as 'replace facts' or 'deactivate node'
-	Command string `json:"command"`
-	// Command version as an integer
-	Version int `json:"version"`
-	// Command payload, may contain different data types depending on command
+	Command string      `json:"command"`
+	Version int         `json:"version"`
 	Payload interface{} `json:"payload"`
 }
 
-/*
-Response to a commands submission request.
-
-This struct contains the fields that are returned when a command was
-successfully submitted. This does not indicate the command was processed,
-just an acknowledgement it was received and will be processed in the future.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html#command-submission
-*/
+// CommandResponse struct representing a PuppetDB command response object.
 type CommandResponse struct {
-	// A UUID returned by the server uniquely identifying a command submission
 	Uuid string `json:"uuid"`
 }
-package puppetdb
 
 // FactsWireFormat struct representing the wire format of a PuppetDB facts object.
 type FactsWireFormat struct {
@@ -161,26 +83,16 @@ type FactContent struct {
 	Value       string   `json:"value"`
 	Path        []string `json:"path"`
 }
-package puppetdb
 
-/*
-Response to servertime query end-point.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/query/v3/server-time.html#get-v3server-time
-*/
+// ServerTime struct representing the server time.
 type ServerTime struct {
 	ServerTime string `json:"server-time"`
 }
 
-/*
-Response to version query end-point.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/query/v3/version.html#get-v3version
-*/
+// Version struct representing the version of the PuppetDB server.
 type Version struct {
 	Version string `json:"version"`
 }
-package puppetdb
 
 // ReportWireFormat A representation of a report in wire format.
 type ReportWireFormat struct {
@@ -260,7 +172,6 @@ type AggregateEventCounts struct {
 	Skips     string `json:"skips"`
 	Total     string `json:"total"`
 }
-package puppetdb
 
 // Node Representation of a PuppetDB node
 type Node struct {
