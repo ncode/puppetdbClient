@@ -3,7 +3,7 @@ package puppetdbClient
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 )
@@ -11,23 +11,22 @@ import (
 // Query will query the PuppetDB instance with the given URL.
 func (server *Server) Query(url string) ([]byte, error) {
 	baseUrl := server.BaseUrl
+	queryUrl := strings.Join([]string{baseUrl, url}, "")
 
-	fullUrl := strings.Join([]string{baseUrl, url}, "")
-
-	req, err := http.NewRequest("GET", fullUrl, nil)
+	req, err := http.NewRequest("GET", queryUrl, nil)
 	if err != nil {
 		return nil, err
 	}
-
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
+	client := server.Client
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 // QueryVersion will query the PuppetDB instance version end-point.
