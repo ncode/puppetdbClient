@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("https://localhost:8080/", nil)
+	server := puppetdbClient.New("http://localhost:8080/", nil)
 
 	// Query catalog
 	catResponse, _ := server.QueryCatalogs("foobar")

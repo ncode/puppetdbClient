@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("https://localhost:8080/", nil)
+	server := puppetdbClient.New("http://localhost:8080/", nil)
 	response, _ := server.QueryServerTime()
 	fmt.Printf("Server Time: %v\n", response.ServerTime)
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("https://localhost:8080/", nil)
+	server := puppetdbClient.New("http://localhost:8080/", nil)
 
 	// A blank query string - just an example
 	var values url.Values
