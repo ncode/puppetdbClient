@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/ncode/puppetdbClient"
 	"net/url"
 	"os"
+
+	"github.com/ncode/puppetdbClient"
 )
 
 func main() {
@@ -17,7 +18,8 @@ func main() {
 	// A blank query string - just an example
 	var values url.Values
 	values = map[string][]string{
-		"query": []string{""},
+		"query": {""},
+		"limit": {"10"},
 	}
 	queryString := values.Encode()
 
