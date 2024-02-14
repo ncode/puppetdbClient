@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := puppetdb.NewServer("http://localhost:8080/")
+	server := puppetdb.New("http://localhost:8080/")
 	response, _ := server.DeactivateNode("foobar")
 	fmt.Printf("UUID: %v\n", response.Uuid)
 }

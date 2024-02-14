@@ -33,7 +33,7 @@ func main() {
 	report.ResourceEvents = []puppetdb.ResourceEvent{e1}
 
 	// Store report
-	server := puppetdb.NewServer("http://localhost:8080/")
+	server := puppetdb.New("http://localhost:8080/")
 	response, _ := server.StoreReport(report)
 	fmt.Printf("UUID: %v\n", response.Uuid)
 }

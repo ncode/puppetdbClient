@@ -41,7 +41,7 @@ func main() {
 	catalog.Data.Resources = []puppetdb.CatalogResource{r1, r2}
 
 	// Submit catalog
-	server := puppetdb.NewServer("http://localhost:8080/")
+	server := puppetdb.New("http://localhost:8080/")
 	response, _ := server.ReplaceCatalog(catalog)
 	fmt.Printf("UUID: %v\n", response.Uuid)
 }
