@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("http://localhost:8080/", nil)
-	response, _ := server.DeactivateNode("foobar")
+	client := puppetdbClient.New("http://localhost:8080/", nil)
+	response, _ := client.DeactivateNode("foobar")
 	fmt.Printf("UUID: %v\n", response.Uuid)
 }

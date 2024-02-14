@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("http://localhost:8080/", nil)
+	client := puppetdbClient.New("http://localhost:8080/", nil)
 
 	// Query catalog
-	catResponse, _ := server.QueryCatalogs("foobar")
+	catResponse, _ := client.QueryCatalogs("foobar")
 	fmt.Printf("Catalog Name: %v\n", catResponse.Data.Name)
 	fmt.Printf("Catalog Version: %v\n", catResponse.Data.Version)
 	fmt.Printf("Catalog Transaction UUID: %v\n", catResponse.Data.TransactionUuid)

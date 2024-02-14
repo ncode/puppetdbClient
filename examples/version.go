@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("http://localhost:8080/", nil)
-	response, _ := server.QueryVersion()
+	client := puppetdbClient.New("http://localhost:8080/", nil)
+	response, _ := client.QueryVersion()
 	fmt.Printf("Version: %v\n", response.Version)
 }

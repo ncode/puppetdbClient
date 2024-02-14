@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	server := puppetdbClient.New("http://localhost:8080/", nil)
+	client := puppetdbClient.New("http://localhost:8080/", nil)
 
 	// A blank query string - just an example
 	var values url.Values
@@ -16,6 +16,6 @@ func main() {
 	}
 	queryString := values.Encode()
 
-	response, _ := server.QueryEvents(queryString)
+	response, _ := client.QueryEvents(queryString)
 	fmt.Printf("Events: %v\n", response)
 }
