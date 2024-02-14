@@ -62,7 +62,7 @@ func (server *Server) QueryServerTime() (serverTime *ServerTime, err error) {
 	return serverTime, err
 }
 
-// QueryFactNames will query the PuppetDB instance fact-names end-point.
+// QueryFactNames will query the PuppetDB instance fact-names end-point.S
 func (server *Server) QueryFactNames() (factNames []string, err error) {
 	body, err := server.Query("pdb/query/v4/fact-names")
 	if err != nil {

@@ -1,10 +1,6 @@
 package puppetdb
 
-/*
-A representation of a report wire format.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/report_format.html#report-interchange-format
-*/
+// ReportWireFormat A representation of a report in wire format.
 type ReportWireFormat struct {
 	Certname             string          `json:"certname"`
 	PuppetVersion        string          `json:"puppet-version"`
@@ -16,14 +12,7 @@ type ReportWireFormat struct {
 	TransactionUuid      string          `json:"transaction-uuid"`
 }
 
-/*
-A representation of a report query response.
-
-This differs just ever so slightly from the wire format, so we should one day
-into providing an interface{} to handle these.
-
-More details here: http://docs.puppetlabs.com/puppetdb/1.6/api/query/v3/reports.html#get-v3reports
-*/
+// Report A representation of a report
 type Report struct {
 	Certname             string `json:"certname"`
 	PuppetVersion        string `json:"puppet-version"`
@@ -35,11 +24,7 @@ type Report struct {
 	Hash                 string `json:"hash"`
 }
 
-/*
-A representation of a resource even from a report.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/wire_format/report_format.html#data-type-resource-event
-*/
+// ResourceEvent A representation of a resource event from a report.
 type ResourceEvent struct {
 	ResourceType    string   `json:"resource-type"`
 	ResourceTitle   string   `json:"resource-title"`
@@ -54,14 +39,7 @@ type ResourceEvent struct {
 	ContainmentPath []string `json:"containment-path"`
 }
 
-/*
-A representation of a resource event from a report, as returned by a query.
-
-This differs ever so slightly from ResourceEvent, it would be nice to combine
-these somehow in the future.
-
-More details here: http://docs.puppetlabs.com/puppetdb/1.6/api/query/v3/events.html#get-v3events
-*/
+// Event A representation of an event from a report.
 type Event struct {
 	Certname          string   `json:"certname"`
 	Report            string   `json:"report"`
@@ -82,11 +60,7 @@ type Event struct {
 	ContainmentPath   []string `json:"containment-path"`
 }
 
-/*
-Response data structure for event-counts query end-point.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/query/v3/event-counts.html#get-v3event-counts
-*/
+// EventCounts A representation of event counts.
 type EventCounts struct {
 	SubjectType string `json:"subject-type"`
 	Subject     string `json:"subject"`
@@ -96,11 +70,7 @@ type EventCounts struct {
 	Skips       string `json:"skips"`
 }
 
-/*
-Response data structure for aggregate-event-counts query end-points.
-
-More detail here: http://docs.puppetlabs.com/puppetdb/1.6/api/query/v3/aggregate-event-counts.html#get-v3aggregate-event-counts
-*/
+// AggregateEventCounts A representation of aggregate event counts.
 type AggregateEventCounts struct {
 	Failures  string `json:"failures"`
 	Successes string `json:"successes"`
