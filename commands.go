@@ -56,59 +56,12 @@ func (server *Server) SubmitCommand(command string, version int, payload interfa
 	return &commandResponse, nil
 }
 
-/*
-Submit a new 'replace facts' command to PuppetDB.
-
-This function will submit a 'replace facts' command. It accepts a certificate
-name and a map of facts (key/value pairs).
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html#replace-facts-version-1
-*/
-func (server *Server) ReplaceFacts(certname string, facts map[string]string) (*CommandResponse, error) {
-	factsPayload := FactsWireFormat{certname, facts}
-	factsJson, err := json.Marshal(factsPayload)
-	if err != nil {
-		return nil, err
-	}
-
-	commandResponse, err := server.SubmitCommand("replace facts", 1, string(factsJson[:]))
-	return commandResponse, err
-}
-
-/*
-Submit a new 'deactivate node' command to PuppetDB.
-
-This function will submit a 'deactivate node' command. It accepts a certificate
-name as an argument to indicate which node to deactivate.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html#deactivate-node-version-1
-*/
-func (server *Server) DeactivateNode(certname string) (*CommandResponse, error) {
+// DeactivateNode Deactivate a node in PuppetDB.
+func (server *Server) DeactivateNode(certname string) (commandResponse *CommandResponse, err error) {
 	certnameJson, err := json.Marshal(certname)
 	if err != nil {
-		return nil, err
+		return commandResponse, err
 	}
 
-	commandResponse, err := server.SubmitCommand("deactivate node", 1, string(certnameJson[:]))
-	return commandResponse, err
-}
-
-/*
-Submit a new 'replace catalog' command to PuppetDB.
-
-More details here: http://docs.puppetlabs.com/puppetdb/latest/api/commands.html#replace-catalog-version-3
-*/
-func (server *Server) ReplaceCatalog(catalog CatalogWireFormat) (*CommandResponse, error) {
-	commandResponse, error := server.SubmitCommand("replace catalog", 3, catalog)
-	return commandResponse, error
-}
-
-/*
-Submit a new 'store report' command to PuppetDB.
-
-More details here: http://docs.puppetlabs.com/puppetdb/1.6/api/commands.html#store-report-version-2
-*/
-func (server *Server) StoreReport(report ReportWireFormat) (*CommandResponse, error) {
-	commandResponse, error := server.SubmitCommand("store report", 2, report)
-	return commandResponse, error
+	return server.SubmitCommand("deactivate node", 1, string(certnameJson[:]))
 }

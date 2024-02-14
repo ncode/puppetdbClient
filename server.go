@@ -15,10 +15,3 @@ func New(baseUrl string, client *http.Client) Server {
 	}
 	return Server{baseUrl, client}
 }
-
-// NewCatalogWireFormat Create a new instance of a CatalogWireFormat.
-func NewCatalogWireFormat() CatalogWireFormat {
-	metadata := CatalogMetadata{0}
-	data := CatalogData{"", "", "", nil, nil}
-	return CatalogWireFormat{metadata, data}
-}
