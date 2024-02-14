@@ -25,8 +25,16 @@ func (server *Client) Query(url string) ([]byte, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
 
-	return io.ReadAll(resp.Body)
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("query failed status code: %v body: %s", resp.Status, string(body))
+	}
+
+	return body, nil
 }
 
 // QueryVersion will query the PuppetDB instance version end-point.
@@ -240,20 +248,19 @@ func (server *Client) QueryEvents(queryString string) (events []Event, err error
 }
 
 // QueryEventCounts will query the PuppetDB instance event-counts end-point.
-func (server *Client) QueryEventCounts(queryString string) (eventCounts *EventCounts, err error) {
+func (server *Client) QueryEventCounts(queryString string) (counts []EventCounts, err error) {
 	url := fmt.Sprintf("pdb/query/v4/event-counts?%v", queryString)
 	body, err := server.Query(url)
 	if err != nil {
 		return nil, err
 	}
 
-	eventCounts = &EventCounts{}
-	err = json.Unmarshal(body, eventCounts)
+	err = json.Unmarshal(body, &counts)
 	if err != nil {
 		return nil, err
 	}
 
-	return eventCounts, err
+	return counts, err
 }
 
 // QueryAggregateEventCounts will query the PuppetDB instance aggregate-event-counts end-point.
