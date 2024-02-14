@@ -3,13 +3,22 @@ package main
 import (
 	"fmt"
 	"github.com/ncode/puppetdbClient"
+	"os"
 )
 
 func main() {
-	client := puppetdbClient.New("http://localhost:8080/", nil)
+	puppetdbURL := os.Getenv("PUPPETDB_URL")
+	if puppetdbURL == "" {
+		puppetdbURL = "http://localhost:8080/"
+	}
+	client := puppetdbClient.New(puppetdbURL, nil)
 
 	// Query catalog
-	catResponse, _ := client.QueryCatalogs("foobar")
+	catResponse, err := client.QueryCatalogs("foobar")
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Printf("Catalog Name: %v\n", catResponse.Data.Name)
 	fmt.Printf("Catalog Version: %v\n", catResponse.Data.Version)
 	fmt.Printf("Catalog Transaction UUID: %v\n", catResponse.Data.TransactionUuid)

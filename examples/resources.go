@@ -4,10 +4,15 @@ import (
 	"fmt"
 	"github.com/ncode/puppetdbClient"
 	"net/url"
+	"os"
 )
 
 func main() {
-	client := puppetdbClient.New("http://localhost:8080/", nil)
+	puppetdbURL := os.Getenv("PUPPETDB_URL")
+	if puppetdbURL == "" {
+		puppetdbURL = "http://localhost:8080/"
+	}
+	client := puppetdbClient.New(puppetdbURL, nil)
 
 	// A blank query string - just an example
 	var values url.Values
@@ -16,6 +21,9 @@ func main() {
 	}
 	queryString := values.Encode()
 
-	response, _ := client.QueryResources(queryString)
+	response, err := client.QueryResources(queryString)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Printf("Resources: %v\n", response)
 }

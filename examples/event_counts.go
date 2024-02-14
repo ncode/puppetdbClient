@@ -2,21 +2,30 @@ package main
 
 import (
 	"fmt"
-	"github.com/ncode/puppetdbClient"
 	"net/url"
+	"os"
+
+	"github.com/ncode/puppetdbClient"
 )
 
 func main() {
-	client := puppetdbClient.New("http://localhost:8080/", nil)
+	puppetdbURL := os.Getenv("PUPPETDB_URL")
+	if puppetdbURL == "" {
+		puppetdbURL = "http://localhost:8080/"
+	}
+	client := puppetdbClient.New(puppetdbURL, nil)
 
 	// A blank query string - just an example
 	var values url.Values
 	values = map[string][]string{
-		"query":        []string{"[\"=\",\"certname\",\"foobar\"]"},
-		"summarize-by": []string{"certname"},
+		"query":        []string{"[\"=\",\"latest_report?\",\"true\"]"},
+		"summarize_by": []string{"certname"},
 	}
 	queryString := values.Encode()
 
-	response, _ := client.QueryEventCounts(queryString)
+	response, err := client.QueryEventCounts(queryString)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Printf("Event Counts: %v\n", response)
 }
