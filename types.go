@@ -86,6 +86,13 @@ type FactContent struct {
 	Path        []string `json:"path"`
 }
 
+// FactsPath struct representing a PuppetDB facts path object.
+type FactsPath struct {
+	Path  []string `json:"path"`
+	Type  string   `json:"type"`
+	Depth int      `json:"depth"`
+}
+
 // ServerTime struct representing the server time.
 type ServerTime struct {
 	ServerTime string `json:"server_time"`
@@ -131,15 +138,21 @@ type Report struct {
 	CodeId               string         `json:"code_id"`
 	NoopPending          bool           `json:"noop_pending"`
 	Certname             string         `json:"certname"`
-	Metrics              struct {
-		Data []struct {
-			Name     string  `json:"name"`
-			Value    float64 `json:"value"`
-			Category string  `json:"category"`
-		} `json:"data"`
-		Href string `json:"href"`
-	} `json:"metrics"`
-	JobId string `json:"job_id"`
+	Metrics              Metrics        `json:"metrics"`
+	JobId                string         `json:"job_id"`
+}
+
+// Metrics struct representing the metrics of a PuppetDB report object.
+type Metrics struct {
+	Data []MetricData `json:"data"`
+	Href string       `json:"href"`
+}
+
+// MetricData struct representing the data of a PuppetDB report object.
+type MetricData struct {
+	Name     string  `json:"name"`
+	Value    float64 `json:"value"`
+	Category string  `json:"category"`
 }
 
 // ReportLogs struct representing the logs of a PuppetDB report object.
@@ -159,11 +172,13 @@ type ReportData struct {
 	Message string    `json:"message"`
 }
 
+// ResourceEvents struct representing the resource events of a PuppetDB report object.
 type ResourceEvents struct {
 	Data []ResourceEvent `json:"data"`
 	Href string          `json:"href"`
 }
 
+// ResourceEvent A representation of a resource event from a report.
 type ResourceEvent struct {
 	NewValue        string    `json:"new_value"`
 	Property        string    `json:"property"`

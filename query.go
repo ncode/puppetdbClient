@@ -85,7 +85,7 @@ func (server *Client) QueryFactNames() (factNames []string, err error) {
 }
 
 // QueryFactPaths will query the PuppetDB instance fact-paths end-point.
-func (server *Client) QueryFactPaths() (factPaths []string, err error) {
+func (server *Client) QueryFactPaths() (factPaths []FactsPath, err error) {
 	body, err := server.Query("pdb/query/v4/fact-paths")
 	if err != nil {
 		return nil, err
