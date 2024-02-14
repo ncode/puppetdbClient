@@ -9,9 +9,9 @@ type Client struct {
 }
 
 // New Create a new instance of a Client, which can be used to perform operations on the PuppetDB instance.
-func New(baseUrl string, client *http.Client) Client {
+func New(baseUrl string, client *http.Client) *Client {
 	if client == nil {
 		client = &http.Client{}
 	}
-	return Client{baseUrl, client}
+	return &Client{baseUrl, client}
 }
