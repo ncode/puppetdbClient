@@ -1,21 +1,17 @@
 package puppetdb
 
-/*
-Representation of a PuppetDB server instance.
+import "net/http"
 
-Use NewServer to create a new instance.
-*/
+// Server Representation of a PuppetDB server instance.
 type Server struct {
 	BaseUrl string
+	Client  *http.Client
 }
 
-/*
-Create a new instance of a Server for usage later.
-
-This is usually the main entry point of this SDK, where you would create
-this initial object and use it to perform activities on the instance in
-question.
-*/
-func NewServer(baseUrl string) Server {
-	return Server{baseUrl}
+// New Create a new instance of a Server, which can be used to perform operations on the PuppetDB instance.
+func New(baseUrl string, client *http.Client) Server {
+	if client == nil {
+		client = &http.Client{}
+	}
+	return Server{baseUrl, client}
 }
