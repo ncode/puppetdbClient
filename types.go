@@ -15,7 +15,7 @@ type CatalogMetadata struct {
 type CatalogData struct {
 	Name            string            `json:"name"`
 	Version         string            `json:"version"`
-	TransactionUuid string            `json:"transaction-uuid"`
+	TransactionUuid string            `json:"transaction_uuid"`
 	Edges           []CatalogEdge     `json:"edges"`
 	Resources       []CatalogResource `json:"resources"`
 }
@@ -86,7 +86,7 @@ type FactContent struct {
 
 // ServerTime struct representing the server time.
 type ServerTime struct {
-	ServerTime string `json:"server-time"`
+	ServerTime string `json:"server_time"`
 }
 
 // Version struct representing the version of the PuppetDB server.
@@ -97,71 +97,75 @@ type Version struct {
 // ReportWireFormat A representation of a report in wire format.
 type ReportWireFormat struct {
 	Certname             string          `json:"certname"`
-	PuppetVersion        string          `json:"puppet-version"`
-	ReportFormat         int             `json:"report-format"`
-	ConfigurationVersion string          `json:"configuration-version"`
-	StartTime            string          `json:"start-time"`
-	EndTime              string          `json:"end-time"`
-	ResourceEvents       []ResourceEvent `json:"resource-events"`
-	TransactionUuid      string          `json:"transaction-uuid"`
+	PuppetVersion        string          `json:"puppet_version"`
+	ReportFormat         int             `json:"report_format"`
+	ConfigurationVersion string          `json:"configuration_version"`
+	StartTime            string          `json:"start_time"`
+	EndTime              string          `json:"end_time"`
+	ResourceEvents       []ResourceEvent `json:"resource_events"`
+	TransactionUuid      string          `json:"transaction_uuid"`
 }
 
 // Report A representation of a report
 type Report struct {
 	Certname             string `json:"certname"`
-	PuppetVersion        string `json:"puppet-version"`
-	ReportFormat         int    `json:"report-format"`
-	ConfigurationVersion string `json:"configuration-version"`
-	StartTime            string `json:"start-time"`
-	EndTime              string `json:"end-time"`
-	TransactionUuid      string `json:"transaction-uuid"`
+	PuppetVersion        string `json:"puppet_version"`
+	ReportFormat         int    `json:"report_format"`
+	ConfigurationVersion string `json:"configuration_version"`
+	StartTime            string `json:"start_time"`
+	EndTime              string `json:"end_time"`
+	TransactionUuid      string `json:"transaction_uuid"`
 	Hash                 string `json:"hash"`
 }
 
 // ResourceEvent A representation of a resource event from a report.
 type ResourceEvent struct {
-	ResourceType    string   `json:"resource-type"`
-	ResourceTitle   string   `json:"resource-title"`
+	ResourceType    string   `json:"resource_type"`
+	ResourceTitle   string   `json:"resource_title"`
 	Property        string   `json:"property"`
 	Timestamp       string   `json:"timestamp"`
 	Status          string   `json:"status"`
-	OldValue        string   `json:"old-value"`
-	NewValue        string   `json:"new-value"`
+	OldValue        string   `json:"old_value"`
+	NewValue        string   `json:"new_value"`
 	Message         string   `json:"message"`
 	File            string   `json:"file"`
 	Line            int      `json:"line"`
-	ContainmentPath []string `json:"containment-path"`
+	ContainmentPath []string `json:"containment_path"`
 }
 
 // Event A representation of an event from a report.
 type Event struct {
 	Certname          string   `json:"certname"`
 	Report            string   `json:"report"`
-	RunStartTime      string   `json:"run-start-time"`
-	RunEndTime        string   `json:"run-end-time"`
-	ReportReceiveTime string   `json:"report-receive-time"`
-	LatestReport      bool     `json:"latest-report?"`
-	ResourceType      string   `json:"resource-type"`
-	ResourceTitle     string   `json:"resource-title"`
+	RunStartTime      string   `json:"run_start_time"`
+	RunEndTime        string   `json:"run_end_time"`
+	ReportReceiveTime string   `json:"report_receive_time"`
+	LatestReport      bool     `json:"latest_report?"`
+	ResourceType      string   `json:"resource_type"`
+	ResourceTitle     string   `json:"resource_title"`
 	Property          string   `json:"property"`
 	Timestamp         string   `json:"timestamp"`
 	Status            string   `json:"status"`
-	OldValue          string   `json:"old-value"`
-	NewValue          string   `json:"new-value"`
+	OldValue          string   `json:"old_value"`
+	NewValue          string   `json:"new_value"`
 	Message           string   `json:"message"`
 	File              string   `json:"file"`
 	Line              int      `json:"line"`
-	ContainmentPath   []string `json:"containment-path"`
+	ContainmentPath   []string `json:"containment_path"`
 }
 
 // EventCounts A representation of event counts.
 type EventCounts struct {
-	SubjectType string `json:"subject-type"`
-	Subject     string `json:"subject"`
-	Failures    string `json:"failures"`
-	Successes   string `json:"successes"`
-	Noops       string `json:"noops"`
-	Skips       string `json:"skips"`
+	SubjectType string       `json:"subject_type"`
+	Subject     SubjectField `json:"subject"`
+	Failures    int          `json:"failures"`
+	Successes   int          `json:"successes"`
+	Noops       int          `json:"noops"`
+	Skips       int          `json:"skips"`
+}
+
+type SubjectField struct {
+	Title string `json:"title"`
 }
 
 // AggregateEventCounts A representation of aggregate event counts.
