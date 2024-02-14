@@ -272,3 +272,19 @@ func (server *Server) QueryAggregateEventCounts(queryString string) (aggregateEv
 
 	return aggregateEventCounts, err
 }
+
+// QueryInventory will query the PuppetDB instance inventory end-point.
+func (server *Server) QueryInventory(queryString string) (inventory []Inventory, err error) {
+	url := fmt.Sprintf("pdb/query/v4/inventory?%v", queryString)
+	body, err := server.Query(url)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &inventory)
+	if err != nil {
+		return nil, err
+	}
+
+	return inventory, err
+}

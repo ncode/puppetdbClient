@@ -173,11 +173,20 @@ type AggregateEventCounts struct {
 	Total     string `json:"total"`
 }
 
-// Node Representation of a PuppetDB node
+// Node Representation of a PuppetDB node.
 type Node struct {
 	Name             string `json:"name"`
 	Deactivated      string `json:"deactivated"`
 	CatalogTimestamp string `json:"catalog_timestamp"`
 	FactsTimestamp   string `json:"facts_timestamp"`
 	ReportTimestamp  string `json:"report_timestamp"`
+}
+
+// Inventory struct representing a PuppetDB inventory object.
+type Inventory struct {
+	Certname    string            `json:"certname"`
+	Facts       map[string]string `json:"facts"`
+	Trusted     map[string]string `json:"trusted"`
+	Environment string            `json:"environment"`
+	Timestamp   string            `json:"timestamp"`
 }
