@@ -11,6 +11,9 @@ import (
 // Query will query the PuppetDB instance with the given URL.
 func (server *Client) Query(url string) ([]byte, error) {
 	baseUrl := server.ServerUrl
+	if !strings.HasSuffix(baseUrl, "/") {
+		baseUrl = baseUrl + "/"
+	}
 	queryUrl := strings.Join([]string{baseUrl, url}, "")
 
 	req, err := http.NewRequest("GET", queryUrl, nil)
@@ -85,8 +88,9 @@ func (server *Client) QueryFactNames() (factNames []string, err error) {
 }
 
 // QueryFactPaths will query the PuppetDB instance fact-paths end-point.
-func (server *Client) QueryFactPaths() (factPaths []FactsPath, err error) {
-	body, err := server.Query("pdb/query/v4/fact-paths")
+func (server *Client) QueryFactPaths(queryString string) (factPaths []FactsPath, err error) {
+	url := fmt.Sprintf("pdb/query/v4/fact-paths?%v", queryString)
+	body, err := server.Query(url)
 	if err != nil {
 		return nil, err
 	}
