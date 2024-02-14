@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/ncode/puppetdb-client-go"
+	"github.com/ncode/puppetdbClient"
 )
 
 func main() {
-	server := puppetdb.New("http://localhost:8080/")
+	server := puppetdbClient.New("https://localhost:8080/", nil)
 	response, _ := server.QueryVersion()
 	fmt.Printf("Version: %v\n", response.Version)
 }

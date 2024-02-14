@@ -1,3 +1,3 @@
-module github.com/ncode/puppetdb-client-go
+module github.com/ncode/puppetdbClient
 
 go 1.22.0

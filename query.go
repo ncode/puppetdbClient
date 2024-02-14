@@ -1,4 +1,4 @@
-package puppetdb
+package puppetdbClient
 
 import (
 	"encoding/json"

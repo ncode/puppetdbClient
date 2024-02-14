@@ -1,4 +1,4 @@
-package puppetdb
+package puppetdbClient
 
 // CatalogWireFormat struct representing the wire format of a PuppetDB catalog object.
 type CatalogWireFormat struct {

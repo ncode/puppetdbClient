@@ -1,1 +1,1 @@
-package puppetdb
+package puppetdbClient

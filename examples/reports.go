@@ -2,19 +2,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/ncode/puppetdb-client-go"
+	"github.com/ncode/puppetdbClient"
 	"net/url"
 )
 
 func main() {
-	server := puppetdb.New("http://localhost:8080/")
+	server := puppetdbClient.New("https://localhost:8080/", nil)
 
 	// A blank query string - just an example
-        var values url.Values
-        values = map[string][]string{
-                "query":[]string{"[\"=\",\"certname\",\"foobar\"]"},
-        }
-        queryString := values.Encode()
+	var values url.Values
+	values = map[string][]string{
+		"query": []string{"[\"=\",\"certname\",\"foobar\"]"},
+	}
+	queryString := values.Encode()
 
 	response, _ := server.QueryReports(queryString)
 	fmt.Printf("Reports: %v\n", response)
